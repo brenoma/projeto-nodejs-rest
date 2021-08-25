@@ -2,7 +2,7 @@ const moment = require('moment')
 const conexao = require('../infraestrutura/conexao')
 
 class Atendimento {
-  adiciona(atendimento) {
+  adiciona(atendimento, res) {
     const dataCriacao = new moment().format('YYYY-MM-DD HH:MM:SS')
     const data = moment(atendimento.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
     const atendimentoDatado = {...atendimento, dataCriacao, data}
@@ -10,9 +10,9 @@ class Atendimento {
 
     conexao.query(sql, atendimentoDatado, (err, results) => {
       if (err) {
-        console.log(err)
+        res.status(400).json(err)
       } else {
-        console.log(results)
+        res.status(201).json(results)
       }
     })
   }
