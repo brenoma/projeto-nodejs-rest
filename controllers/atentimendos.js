@@ -1,3 +1,4 @@
+const atendimentos = require('../models/atendimentos')
 const Atendimento = require('../models/atendimentos')
 
 module.exports = app => {
@@ -6,14 +7,27 @@ module.exports = app => {
   })
 
   app.get('/atendimentos/:id', (req, res) => {
-    console.log(req.params)
+    const id = parseInt(req.params.id)
 
-    res.send("OK")
+    Atendimento.buscaPorId(id, res)
   })
 
   app.post('/atendimentos', (req, res) => {
     const atendimento = req.body
     
     Atendimento.adiciona(atendimento, res)
+  })
+
+  app.patch('/atendimentos/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    const values = req.body
+
+    Atendimento.altera(id, values, res)
+  })
+
+  app.delete('/atendimentos/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    
+    Atendimento.apaga(id, res)
   })
 }
